@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Form Ubah Catalog</title>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Ubah Catalog </h2>
+        <br>
+        <form th:action="@{'/catalog/' + ${catalogDTO.id} + '/ubah'}" th:object="${catalogTO}" method="POST">
+
+          Foto Catalog: <br>
+          <input required class="form-control" type="file" th:field="*{fotoCatalog}" accept="image/*" />
+          <br><br>
+
+          Nama Catalog: <br>
+          <input required class ="form-control" type="text" th:field="*{namaCatalog}" />
+          <br><br>
+
+          Kategori Catalog: <br>
+          <select th:field="*{kategoriCatalog}" class="form-control">
+            <option th:value="1">Kategori 1</option>
+            <option th:value="2">Kategori 2</option>
+            <option th:value="3">Kategori 3</option>
+            <option th:value="4">Kategori 4</option>
+            <option th:value="5">Kategori 5</option>
+          </select>
+          <br><br>
+
+          Deskripsi Catalog: <br>
+          <input required class="form-control" type="text" th:field="*{deskripsiCatalog}" />
+          <br><br>
+
+          Stok Catalog: <br>
+          <input required class="form-control" type="number" th:field="*{stokCatalog}" />
+          <br><br>
+
+          Harga Catalog: <br>
+          <input required class="form-control" type="number" th:field="*{hargaCatalog}" />
+          <br><br>
+
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

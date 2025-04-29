@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <title>Order History Page</title>
+</head>
+
+<body>
+    <!-- <div th:replace="~{fragments/navbar :: navbar(${'barang'})}"></div> -->
+    <div class="container">
+        <div class="text-center pt-5">
+            <h2>Order History</h2>
+        </div>
+        <br><br>
+        <table class="table table-bordered text-center" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Created At</th>
+                    <th>Customer</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="barang, iterationStatus : ${listOrder}" 
+                    th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${barang.createdAt}"></td>
+                    <td th:text="${barang.customer}"></td>
+                    <td th:text="${barang.totalPrice}"></td>
+                    <td th:text="${barang.status}"></td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-secondary" th:href="@{/order/{orderId}(orderId=${barang.id})}">Update</a> 
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td>1</td>
+                    <td>22-11-2023</td>
+                    <td>Apapedia</td>
+                    <td>Rp399.000</td>
+                    <td>Menunggu konfirmasi penjual</td>
+                    <td>
+                        <a type="button" class="btn btn-md btn-secondary" href="/">Update Status</a> 
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+    <br><br>
+</div>
+</body>
+
+</html>

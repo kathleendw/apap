@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Tambah Catalog</title>
+  </head>
+
+  <body>
+    <!-- Alert -->
+    <div
+      class="d-flex justify-content-center mt-3"
+      th:if="${error != null || success != null}"
+    >
+      <div
+        class="toast show rounded"
+        th:classappend="${success != null} ? 'bg-primary' : 'bg-danger'"
+      >
+        <div class="toast-header gap-3">
+          <span class="bi bi-info-circle mr-2" aria-hidden="true"></span>
+          <strong
+            class="me-auto"
+            th:utext="${success != null} ? ${success} : ${error}"
+          >
+          </strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="card mb-2">
+        <div class="card-header d-flex justify-content-center">
+          <h3 class="fw-bold">Tambah Produk</h3>
+        </div>
+
+        <div class="px-5 py-2">
+          <form
+            th:action="@{/catalog/tambah}"
+            th:object="${catalogDTO}"
+            method="POST"
+          >
+            Nama Produk <br />
+            <input
+              class="form-control"
+              type="text"
+              th:field="*{productName}"
+              placeholder="Nama Produk"
+            />
+            <br />
+
+            Kategori Produk
+            <select th:field="*{category}" class="form-control" required>
+              <div th:each="category1: ${categories}">
+                <option
+                  th:value="${category1.id}"
+                  th:text="${category1.name}"
+                ></option>
+              </div>
+            </select>
+            <br />
+
+            Deskripsi Produk<br />
+            <textarea
+              class="form-control"
+              type="text"
+              th:field="*{productDescription}"
+              placeholder="Tuliskan deskripsi produk..."
+            ></textarea>
+            <br />
+
+            Harga Produk<br />
+            <input
+              class="form-control"
+              type="number"
+              th:field="*{price}"
+              placeholder="Rp 0"
+            />
+            <br />
+
+            Stok<br />
+            <input
+              class="form-control"
+              type="number"
+              th:field="*{stok}"
+              placeholder="0"
+            />
+            <br />
+
+            Image Url <br />
+            <input class="form-control" type="text" th:field="*{image}" />
+            <br />
+
+            <div class="d-flex justify-content-center gap-3">
+              <a th:href="@{/catalog}" type="button" class="btn btn-danger"
+                >Batal</a
+              >
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

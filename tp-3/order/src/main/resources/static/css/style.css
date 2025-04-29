@@ -1,0 +1,24 @@
+.navbar-custom {
+    background-color: #007BFF;
+    color: white;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #91adc9; /* Warna saat mouse hover */
+}
+
+.navbar .navbar-nav .nav-item.navbar-active .nav-link {
+    font-weight: 600;
+    color: #6a6a6a;
+}
+
+/*hover*/
+.navbar .navbar-nav .nav-item.navbar-active .nav-link:hover {
+    font-weight: 500;
+    color: #000000;
+}

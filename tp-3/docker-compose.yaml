@@ -1,0 +1,148 @@
+# version: '3.8'
+# services:
+#   db:
+#     image: postgres:14-alpine
+#     ports:
+#       - '15001:5432'
+#     restart: 'no'
+#     environment:
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=secret99
+#     volumes:
+#       - db:/var/lib/postgresql/data
+# volumes:
+#   db:
+#     driver: local
+
+version: '3.3'
+services:
+#   web-fe:
+#     build:
+#       context: ./frontend_web
+#     restart: always
+#     ports:
+#       - "10058:8080"
+#     volumes:
+#       - ./file-storage:/file-storage
+#       - ./log:/log
+#     env_file:
+#       - frontend_web/.env
+#     networks:
+#       - frontend-network
+#       - backend-network
+
+#   web-user:
+#     build:
+#         context: ./user
+#     restart: always
+#     ports:
+#       - "10059:8080"
+#     volumes:
+#       - ./file-storage:/file-storage
+#       - ./log:/log
+#     env_file:
+#       - user/.env
+#     depends_on:
+#       - db-user
+#     networks:
+#       - frontend-network
+#       - backend-network
+
+  db-user:
+    image: postgres:14-alpine
+    ports:
+      - '15059:5432'
+    restart: 'no'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret99
+    volumes:
+      - db-user:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
+#   web-order:
+#     build:
+#       context: ./order
+#     restart: always
+#     ports:
+#       - "10060:8080"
+#     volumes:
+#       - ./file-storage:/file-storage
+#       - ./log:/log
+#     env_file:
+#       - order/.env
+#     depends_on:
+#       - db-order
+#     networks:
+#       - frontend-network
+#       - backend-network
+
+  db-order:
+    image: postgres:14-alpine
+    ports:
+      - '15060:5432'
+    restart: 'no'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret99
+    volumes:
+      - db-order:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
+#   web-catalog:
+#     build:
+#       context: ./catalog
+#     restart: always
+#     ports:
+#       - "10061:8080"
+#     volumes:
+#       - ./file-storage:/file-storage
+#       - ./log:/log
+#     env_file:
+#       - catalog/.env
+#     depends_on:
+#       - db-catalog
+#     networks:
+#       - frontend-network
+#       - backend-network
+
+  db-catalog:
+    image: postgres:14-alpine
+    ports:
+      - '15001:5432'
+    restart: 'no'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret99
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
+  #   image: postgres:14-alpine
+  #   ports:
+  #     - '15061:5432'
+  #   restart: 'no'
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=secret99
+  #   volumes:
+  #     - db-catalog:/var/lib/postgresql/data
+  #   networks:
+  #     - backend-network
+
+volumes:
+  db-user:
+    driver: local
+  db-order:
+    driver: local
+  db-catalog:
+    driver: local
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge

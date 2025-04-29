@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1698870720407,22,Create Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,368,317,1,1,http://localhost:8080/api/buku/create,22,0,1
+1698870720431,1411,Get Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,369,196,1,1,http://localhost:8080/api/buku/ecbdfd00-b19b-4582-be5a-bef786f030bf,1410,0,0
+1698870721843,1246,Update Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,368,379,1,1,http://localhost:8080/api/buku,1245,0,0
+1698870723089,1950,Search Buku by Judul 2106637366,200,,Thread Group 2106637366 1-1,text,true,,142913,174,1,1,http://localhost:8080/api/buku/search?query=a,1151,0,0
+1698870725040,1,Random Request 2106637366,400,,Thread Group 2106637366 1-1,,false,,92,161,1,1,http://localhost:8080/api/random,1,0,0
+1698870751523,351,Create Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,368,317,1,1,http://localhost:8080/api/buku/create,350,0,1
+1698870751879,362,Get Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,369,196,1,1,http://localhost:8080/api/buku/f6862ad3-0be6-4be2-8d98-7a2a7dfe231a,362,0,0
+1698870752242,303,Update Buku 2106637366,200,,Thread Group 2106637366 1-1,text,true,,368,379,1,1,http://localhost:8080/api/buku,303,0,0
+1698870752546,526,Search Buku by Judul 2106637366,200,,Thread Group 2106637366 1-1,text,true,,25649,174,1,1,http://localhost:8080/api/buku/search?query=a,434,0,0
+1698870753073,5,Random Request 2106637366,200,,Thread Group 2106637366 1-1,,true,,121,161,1,1,http://localhost:8080/api/random,5,0,0

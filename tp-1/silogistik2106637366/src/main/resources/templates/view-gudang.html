@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <title>Home</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/navbar :: navbar(${'gudang'})}"></div>
+  <div class="container">
+    <br>
+    <div class="card" style="width: 70rem;">
+        <div class="card-header">
+            <div class="row" style="margin-top: 12px;">
+                <h2 class="fw-bold col">Detail Gudang</h2>
+                <div class="d-flex justify-content-end mb-3 col">
+                    <a type="button" class="btn btn-primary btn-md"
+                    th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudang.idGudang})}">+ Restock Barang</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <br>
+                <div class="row">
+                <p class="card-text col-sm-4 ">Nama Gudang</p>
+                <p class="card-text col-sm-8" th:text="': ' + ${gudang.namaGudang}"></p>
+                </div>
+                <div class="row">
+                <p class="card-text col-sm-4">Alamat Gudang</p>
+                <p class="card-text  col-sm-8" th:text="': ' + ${gudang.alamatGudang}"></p>
+                </div>
+                <br>
+
+                <table class="table table-bordered text-center">
+                    <p class="fw-bold">Daftar barang tersedia</p>
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Merk</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="barang, iterationStatus : ${listBarang}" 
+                            th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td>
+                            <a th:href="@{'/barang/' + ${barang.skuBarang}}" th:text="${barang.skuBarang}"></a>
+                        </td>
+                        <td th:text="${barang.merkBarang}"></td>
+                        <td th:text="${listStok[iterationStatus.count-1]}"></td>
+                        <td th:text="'Rp' + ${barang.hargaBarang}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center m-3">
+      <a type="button" class="btn btn-secondary btn-md" href="/gudang">Kembali</a>
+    </div>
+  </div>
+</body>
+
+</html>

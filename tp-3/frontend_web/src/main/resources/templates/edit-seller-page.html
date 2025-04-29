@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Edit Seller Profile Page</title>
+</head>
+
+<body>
+  <!-- <nav th:replace="~{fragments/navbar :: navbar}"></nav> -->
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2>Edit Profile</h2>
+          <br>
+          <!-- <ul th:if="${validationErrors} != null">
+            <li th:each="error:${validationErrors}">
+              <span th:text="${error.defaultMessage}"></span>
+            </li>
+          </ul> -->
+          <form th:action="@{/seller/edit/{idUser}(idUser=${idUser})}" th:object="${userDTO}" method="POST">
+            Nama: <br>
+            <input class="form-control" type="text" th:field="*{nameUser}" />
+            <br><br>
+
+          Username: <br>
+          <input class="form-control" type="text" th:field="*{username}" />
+          <br><br>
+
+          Password: <br>
+          <input class="form-control" type="password" th:field="*{password}" />
+          <br><br>
+
+          Email: <br>
+          <input class="form-control" type="email" th:field="*{email}" />
+          <br><br>
+
+          Address: <br>
+          <input class="form-control" type="text" th:field="*{address}" />
+          <br><br>
+
+            <button class="btn btn-primary" type="submit">Save</button>
+            <a class="btn btn-danger" href="javascript:history.back()">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

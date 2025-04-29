@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Add Buku</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>  
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="text-center">
+          <h2 th:text="${errorMessage}"></h2>
+        </div>
+        <div class="text-center">
+          <div th:if="${judulErrorMessage}">
+            <h2 th:text="${judulErrorMessage}"></h2>
+          </div>
+        </div>
+        <div class="text-center">
+          <div th:if="${tahunErrorMessage}">
+            <h2 th:text="${tahunErrorMessage}"></h2>
+          </div>
+        </div>
+        <div class="text-center">
+          <div th:if="${hargaErrorMessage}">
+            <h2 th:text="${hargaErrorMessage}"></h2>
+          </div>
+        </div>
+        <div class="text-center">
+          <div th:if="${penerbitErrorMessage}">
+            <h2 th:text="${penerbitErrorMessage}"></h2>
+          </div>
+        </div>
+        <div class="text-center m-3">
+          <a type="button" class="btn btn-md btn-primary" href="/">Home</a>
+          <a type="button" class="btn btn-md btn-primary" href="/buku/viewall-with-datatables">Lihat Semua Buku</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+package apapedia.frontend_web.repository;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CatalogDb extends JpaRepository<Catalog, String> {
+    List<Catalog> findByProductNameContainingIgnoreCase(String namaCatalog);
+
+    List<Catalog> findByPrice(Integer hargaCatalog);
+
+    List<Catalog> findAllByOrderByHargaCatalogAsc();
+
+    List<Catalog> findAllByOrderByHargaCatalogDesc();
+
+    @Query("SELECT c FROM Catalog c ORDER BY LOWER(c.productName) ASC")
+    List<Catalog> findAllByOrderByNamaCatalogAsc();
+
+    @Query("SELECT c FROM Catalogue c ORDER BY LOWER(c.productName) DESC")
+    List<Catalog> findAllByOrderByNamacatalogDesc();
+
+}

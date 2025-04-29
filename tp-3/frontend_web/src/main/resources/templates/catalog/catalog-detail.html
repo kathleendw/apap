@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Catalog Detail</title>
+  </head>
+  <body>
+    <nav
+      th:replace="~{fragments/navbar-not-logged-in :: navbar('catalog')}"
+    ></nav>
+    <!-- Alert -->
+    <div
+      class="d-flex justify-content-center mt-3"
+      th:if="${error != null || success != null}"
+    >
+      <div
+        class="toast show rounded"
+        th:classappend="${success != null} ? 'bg-primary' : 'bg-danger'"
+      >
+        <div class="toast-header gap-3">
+          <span class="bi bi-info-circle mr-2" aria-hidden="true"></span>
+          <strong
+            class="me-auto"
+            th:utext="${success != null} ? ${success} : ${error}"
+          >
+          </strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <main role="main">
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <section class="jumbotron text-center">
+            <h1>Detail Catalog</h1>
+          </section>
+
+          <div class="card mb-1" style="max-width: 1110px">
+            <div class="row no-gutters" th:if="${catalog != null}">
+              <div class="col-md-4">
+                <img th:src="@{/img/c1.jpg}" class="card-img" alt="..." />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title" th:text="${catalog.productName}"></h5>
+                  <p
+                    class="card-text"
+                    th:text="${catalog.productDescription}"
+                  ></p>
+                  <h5
+                    class="card-title"
+                    th:text="'Rp ' + ${#numbers.formatDecimal(catalog.price, 0, 'COMMA', 2, 'POINT')}"
+                  ></h5>
+                  <p class="card-text">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-shop"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"
+                      />
+                    </svg>
+                    Converse Reseller
+                  </p>
+                  <p>
+                    <a
+                      th:href="@{'/catalog/update/' + ${catalog.id}}"
+                      class="btn btn-primary my-2"
+                      >Edit Catalog</a
+                    >
+                  </p>
+                  <p class="card-text">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div th:unless="${catalog != null}">
+              <h3 th:text="${error}" class="text-center m-5"></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

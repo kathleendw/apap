@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Form Ubah Barang</title>
+</head>
+
+<body>
+  <div th:replace="~{fragments/navbar :: navbar(${'barang'})}"></div>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2>Ubah Barang</h2>
+          <br>
+          <form th:action="@{/barang/ubah}" th:object="${barangDTO}" method="POST">
+            SKU: <br>
+            <input class="form-control" type="text" th:field="*{skuBarang}" readonly="readonly"/>
+            <br><br>
+
+            Merk Barang: <br>
+            <input class="form-control" type="text" th:field="*{merkBarang}" />
+            <br><br>
+
+            Tipe Barang: <br>
+            <input class="form-control" type="text" 
+                th:value="*{tipeBarang == 1 ? 'Produk Elektronik' 
+                : tipeBarang == 2 ? 'Pakaian & Aksesoris' 
+                : tipeBarang == 3 ? 'Makanan & Minuman' 
+                : tipeBarang == 4 ? 'Perlengkapan Rumah' 
+                : 'TOOL'}" 
+                readonly="readonly"/>
+            <br><br>
+
+            Harga: <br>
+            <input required class="form-control" type="number" th:field="*{hargaBarang}" />
+            <br><br>
+
+            <button class="btn btn-primary" type="submit">Simpan</button>
+            <a class="btn btn-primary" href="javascript:history.back()">Batal</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

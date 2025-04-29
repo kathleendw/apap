@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <object th:include="~{fragments/fragment :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/fragment :: css}" th:remove="tag"></object>
+  <style>
+    .navbar a.nav-link.active {
+      color: #007bff; /* Warna teks tautan aktif */
+      font-weight: bold; /* Bobot teks lebih tebal untuk tautan aktif */
+      background-color: #ffffff; /* Warna latar belakang tautan aktif */
+      border-bottom: 2px solid #007bff; /* Garis bawah pada tautan aktif */
+      border-radius: 0; /* Menghapus sudut melengkung pada tautan aktif */
+    }
+  </style>
+</head>
+<body>
+<nav th:fragment="navbar(requestPage)" class="navbar navbar-expand-lg navbar-dark bg-primary ">
+  <div class="container-md">
+    <a class="navbar-brand navbar-dark bg-primary fw-bold text-light" th:href="@{/catalog}">APAPEDIA</a>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a  class="nav-link" th:classappend="${requestPage== 'catalog' ? 'nav-link active' : ''}" th:href="@{/catalog}">Catalog</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" th:classappend="${requestPage== 'order' ? 'nav-link active' : ''}" th:href="@{/order/seller}">Order History</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" th:classappend="${requestPage== 'profile' ? 'nav-link active' : ''}" th:href="@{/profile}">Profile</a>
+        </li>
+      </ul>
+      <form class="d-flex flex-grow-1 mx-2" th:action="@{/catalog/search}" method="get">
+        <input class="form-control me-2 flex-grow-1" type="search" name="nama" placeholder="Cari di Apapedia" aria-label="Search" th:value="${searchTerm}">
+        <button class="btn btn-outline-light" type="submit">Cari</button>
+      </form>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

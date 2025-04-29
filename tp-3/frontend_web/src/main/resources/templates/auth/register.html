@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Register</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar-not-logged-in}"></nav>
+  <div class="container-fluid text-center">
+    <br>
+    <br>
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            Register
+          </div>
+          <div class="card-body">
+            <div th:if="${param.error}">
+              <span style="color: red">Invalid username and password.</span>
+            </div>
+            <br>
+            <form th:action="@{/seller/register}" th:object="${userDTO}" method="POST">
+              <div class="row form-group">
+                Name:
+                <input class="col-sm-8 form-control input-sm" type="text" th:field="*{nameUser}" />
+              </div>
+              <div class="row form-group">
+                Username:
+                <input class="col-sm-8 form-control input-sm" type="text" th:field="*{username}" />
+              </div>
+              <div class="row form-group">
+                Password:
+                <input class="col-sm-8 form-control input-sm" type="password" th:field="*{password}" />
+              </div>
+              <div class="row form-group">
+                Email:
+                <input class="col-sm-8 form-control input-sm" type="text" th:field="*{email}" />
+              </div>
+              <div class="row form-group">
+                Address:
+                <input class="col-sm-8 form-control input-sm" type="text" th:field="*{address}" />
+              </div>
+              <div class="row form-group">
+                Category:
+                <select class="col-sm-8 form-control input-sm" th:field="*{category}">
+                  <option value="Biasa">Biasa</option>
+                  <option value="Official Store">Official Store</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" type="submit">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

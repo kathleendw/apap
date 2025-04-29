@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Form Tambah Permintaan Pengiriman</title>
+</head>
+
+<body>
+  <div th:replace="~{fragments/navbar :: navbar(${'permintaan-pengiriman'})}"></div>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <h2>Buat Permintaan Pengiriman</h2>
+          <br>
+          <form th:action="@{/permintaan-pengiriman/tambah}" th:object="${permintaanPengirimanDTO}" method="POST">
+            Karyawan Bertugas: <br>
+            <table class="table">
+                <tbody>
+                <tr>
+                  <select class="form-control" name="idKaryawan" id="idKaryawan" th:field="*{karyawan}" placeholder="Pilih Karyawan">
+                    <option th:each="karyawanExisting: ${listKaryawanExisting}"
+                            th:value="${karyawanExisting.idKaryawan}" th:text="${karyawanExisting.namaKaryawan}"></option>
+                  </select>
+                </tr>
+                </tbody>
+            </table>
+            <br><br>
+
+            Tanggal Pengiriman: <br>
+            <input class="form-control" type="date" th:field="*{tanggalPengiriman}" />
+            <br><br>
+
+            Nama Penerima: <br>
+            <input class="form-control" type="text" th:field="*{namaPenerima}" />
+            <br><br>
+
+            Alamat Penerima: <br>
+            <input class="form-control" type="text" th:field="*{alamatPenerima}" />
+            <br><br>
+            
+            Biaya Pengiriman: <br>
+            <input required class="form-control" type="number" th:field="*{biayaPengiriman}" />
+            <br><br>
+
+            Jenis Layanan: <br>
+            <table class="table">
+              <tbody>
+              <tr>
+                <select class="form-control" th:field="*{jenisLayanan}">
+                    <option value=1>Same Day</option>
+                    <option value=2>Kilat</option>
+                    <option value=3>Reguler</option>
+                    <option value=4>Hemat</option>
+                </select>
+              </tr>
+              </tbody>
+            </table>
+            <br><br>
+
+            <button class="btn btn-primary" type="submit" name="addRow" style="text-align:right">+ Tambah Barang</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Barang</th>
+                        <th>Kuantitas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permintaanPengirimanBarang, iterationStatus: *{listPermintaanPengirimanBarang}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td >
+                            <select th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].barang}" class="form-control" placeholder="Pilih Barang">
+                                <div th:each="barangExisting : ${listBarangExisting}">
+                                  <option th:value="${barangExisting.skuBarang}" th:text="${barangExisting.merkBarang}">
+                                  </option>
+                                </div>
+                            </select>
+                        </td>
+                        <td >
+                            <input class="form-control" type="number" placeholder="Kuantitas" th:field="*{listPermintaanPengirimanBarang[__${iterationStatus.index}__].kuantitas}" />
+                        </td>
+                    </tr>
+                  </tbody>
+            </table>
+            <br><br>
+
+            <button class="btn btn-primary" type="submit">Simpan</button>
+            <a class="btn btn-primary" href="javascript:history.back()">Batal</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

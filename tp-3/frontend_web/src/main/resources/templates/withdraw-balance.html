@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+  <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+  <title>Withdraw Balance</title>
+</head>
+
+<body>
+  <nav th:replace="~{fragments/navbar-not-logged-in}"></nav>
+  <div class="container-fluid text-center">
+    <br>
+    <br>
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Withdraw Balance</h3>
+          </div>
+          <div class="card-body">
+            <div class="justify-content-center" style="margin:0 auto; padding:20px 0;">
+                <span>Sisa balance Anda</span>
+                <h2>
+                    <span th:text="${withdrawDTO.balance}"></span>
+                </h2>
+            </div>
+            <form th:action="@{/withdraw/{withdrawDTO}}" th:object="${withdrawDTO}" method="POST">
+              <div class="row form-group" style="margin:0 auto; padding:20px 0;">
+                <label>Jumlah tarik tunai</label>
+                <input class="row-cols-md-4 form-control input-sm" type="number" th:field="*{withdrawal}" />
+                <input type="hidden" th:field="*{idUser}" />
+                <input type="hidden" th:field="*{balance}" />
+              </div>
+              <br>
+              <button class="btn btn-primary" type="submit">Tarik</button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="alert alert-success" role="alert" th:if="${withdrawDTO.withdrawn}">
+            <span th:text="'Selamat penarikan dana Rp ' + '${withdrawDTO.withdrawal}' + ' berhasil' "></span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>

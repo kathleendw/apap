@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+            integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <object th:insert="~{fragments/fragment :: css}" th:remove="tag"></object>
+    <object th:insert="~{fragments/fragment :: js}" th:remove="tag"></object>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sticky-top">
+        <nav th:replace="~{fragments/navbar-logged-in :: navbar('catalog')}"></nav>
+    </div>
+    <main role="main">
+
+        <div class="album bg-light py-2">
+            <div class="container">
+
+                <div th:if="${isSeller}">
+                    <section class="py-1 text-center container">
+                        <div class="row py-lg-5">
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1>All Catalog</h1>
+                                <p>
+                                    <a th:href="@{/catalog/tambah}" class="btn btn-primary my-2">Add Catalog</a>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div th:unless="${isSeller}">
+                    <section class="py-1 container">
+                        <br>
+                        <br>
+                    </section>
+                </div>
+
+                <section id="cards">
+                    <div class="row">
+                        <div class="col-md-3" id="filterncatnstat">
+                            <div id="filter">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-black">Filter</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    <form class="card p-2" th:action="@{/catalog/name/price}">
+                                        <input type="hidden" name="nama" th:value="${searchTerm}">
+                                        <label class="form-label text-black"><b>Harga</b></label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Rp</span>
+                                            <input type="text" name="min" class="form-control" placeholder="Harga Minimum" th:value="${searchMin}">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Rp</span>
+                                            <input type="text" name="max" class="form-control" placeholder="Harga Maksimum" th:value="${searchMax}">
+                                        </div>
+                                        <div>
+                                            <button type="submit" class="btn btn-outline-primary w-100">Cari</button>
+                                        </div>
+                                    </form>
+                                </ul>
+                            </div>
+
+                            <!-- <div th:if="${isSeller}"> -->
+                                <div th:if="${listStats}">
+                                    <div id="stats" style="border-top: 1px solid #ddd" class="py-2">
+                                        <h4 class="d-flex justify-content-between align-items-center mb-3 py-1">
+                                            <span class="text-black">Top 5 This Month</span>
+                                        </h4>
+                                        <canvas id="chartOrder"></canvas>
+                                    </div>
+                                </div>
+
+                                <div th:unless="${listStats}">
+                                    <div id="nostats" style="border-top: 1px solid #ddd" class="py-2">
+                                        <h4 class="d-flex justify-content-between align-items-center mb-3 py-1">
+                                            <span class="text-black">Top 5 This Month</span>
+                                        </h4>
+                                        <p class="text-black">Belum ada penjualan</p>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+
+                            <div id="cat" style="border-top: 1px solid #ddd" class="py-2">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3 py-2">
+                                    <span class="text-black">Category</span>
+                                </h4>
+                                <ul class="list-group">
+                                    <div th:if="${listCategory}" th:each="category: ${listCategory}">
+                                        <li class="list-group-item" th:text="${category}"></li>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-9">
+                            <div th:if="${searchTerm != null and !listCatalog.isEmpty()}">
+                                <p th:utext="'Menampilkan pencarian untuk \'' + '<strong>' + ${searchTerm} + '</strong>' + '\''"></p>
+                            </div>
+                            <div class="row row-cols-2 row-cols-md-4">
+                                <div th:if="${listCatalogSearch}" th:each="catalog: ${listCatalogSearch}">
+                                    <div class="col mb-2">
+                                        <div class="card h-100">
+                                            <div class="position-relative">
+                                                <img th:src="@{${catalog.imagePath}}" class="card-img-top" alt="...">
+                                                <a th:href="@{/catalog/detail(id=${catalog.id})}" class="stretched-link"></a>
+                                            </div>
+                                            <div class="card-body" style="border-top: 1px solid #ddd">
+                                                <p th:text="${catalog.productName}" class="card-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden"></p>
+                                                <h5 th:text="'Rp'+${#numbers.formatDecimal(catalog.price, 0, 'COMMA', 2, 'POINT')}" class="card-title"></h5>
+                                                <p class="card-text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+                                                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
+                                                    </svg>
+                                                    tba </p>
+                                                <div class="d-flex justify-content-between align-items-center position-relative">
+                                                    <div class="btn-group">
+                                                        <form th:action="@{/catalog/detail}" method="get">
+                                                            <input type="hidden" name="id" th:value="${catalog.id}">
+                                                            <button th:href="@{/catalog/detail(id=${catalog.id})}" type="submit" class="btn btn-sm btn-outline-primary">Detail</button>
+                                                        </form>
+                                                        <div th:if="${isSeller}">
+                                                            <a th:href="@{/catalog/update/{id}(id=${catalog.id})}" type="button" class="btn btn-sm btn-outline-primary">Edit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:unless="${listCatalogSearch}" th:each="catalog: ${listCatalog}">
+                                    <div class="col mb-2">
+                                        <div class="card h-100">
+                                            <div class="position-relative">
+                                                <img th:src="@{${catalog.imagePath}}" class="card-img-top" alt="...">
+                                                <a th:href="@{/catalog/detail(id=${catalog.id})}" class="stretched-link"></a>
+
+                                            </div>
+                                            <div class="card-body" style="border-top: 1px solid #ddd">
+                                                <p th:text="${catalog.productName}" class="card-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden"></p>
+                                                <h5 th:text="'Rp'+${#numbers.formatDecimal(catalog.price, 0, 'COMMA', 2, 'POINT')}" class="card-title"></h5>
+                                                <p class="card-text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+                                                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
+                                                    </svg>
+                                                    tba </p>
+                                                <div class="d-flex justify-content-between align-items-center position-relative">
+                                                    <div class="btn-group">
+                                                        <form th:action="@{/catalog/detail}" method="get">
+                                                            <input type="hidden" name="id" th:value="${catalog.id}">
+                                                            <button th:href="@{/catalog/detail(id=${catalog.id})}" class="btn btn-sm btn-outline-primary" type="submit">Detail</button>
+                                                        </form>
+                                                        <div th:if="${isSeller}">
+                                                            <a th:href="@{/catalog/update/{id}(id=${catalog.id})}" type="button" class="btn btn-sm btn-outline-primary">Edit</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script th:inline="javascript">
+        var listProduct = /*[[${listStats}]]*/ [];
+        console.log(listProduct);
+        var labels = listProduct.map(function(item) {
+            return item.productName; // Adjust this based on your data structure
+        });
+        var chartData = listProduct.map(function(item) {
+            return item.amount; // Adjust this based on your data structure
+        });
+
+        var colors = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ];
+        var borderColors= [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ];
+        const ctx = document.getElementById('chartOrder');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Buku',
+                    data: chartData,
+                    backgroundColor: colors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </Script>
+
+</body>
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 px-5 text-body-secondary">&copy; 2023 APAP, TK</span>
+    </div>
+
+</footer>
+
+</html>
